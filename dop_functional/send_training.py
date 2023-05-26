@@ -1,7 +1,8 @@
 # ШАБЛОН ОТПРАВКИ РАСПИСАНИЯ ДЛЯ СТУДЕНТОВ
 async def send_student(db, day_name, student, callback):
-    all_traning = db.get_training("day of the week", "group", f"{day_name}", student)
-    await callback.message.answer(fr"""<b>Расписание на {day_name}</b>
+    if day_name.lower() != "воскресенье":
+        all_traning = db.get_training("day of the week", "group", f"{day_name.lower()}", student)
+        await callback.message.answer(fr"""<b>Расписание на {day_name}</b>
 
 <b>НЕЧЁТНАЯ НЕДЕЛЯ</b>   
 
@@ -27,34 +28,35 @@ async def send_student(db, day_name, student, callback):
 
 # ШАБЛОН ОТПРАВКИ РАСПИСАНИЯ ДЛЯ ПРЕПОДАВАТЕЛЕЙ
 async def send_teacher(db, day_name, teacher, callback):
-    all_traning = db.get_training("day of the week", "teacher", f"{day_name}", teacher)
+    if day_name.lower() != "воскресенье"
+        all_traning = db.get_training("day of the week", "teacher", f"{day_name.lower()}", teacher)
 
-    text = fr"""<b>Расписание на {day_name}</b>
+        text = fr"""<b>Расписание на {day_name}</b>
 
 <b>НЕЧЁТНАЯ НЕДЕЛЯ</b>   
 
                 <b>Ауд.    Предмет    Препод.    Вид.    Группа.</b>   
     """
 
-    i = 0
-    while i < len(all_traning):
-        if all_traning[i][8] == "нечетная неделя":
-            text2 = fr"""
+        i = 0
+        while i < len(all_traning):
+            if all_traning[i][8] == "нечетная неделя":
+                text2 = fr"""
 <b>{all_traning[i][2]}</b> <u>{all_traning[i][3]}  {all_traning[i][6]}  {all_traning[i][5]}  {all_traning[i][4]}  {all_traning[i][7]}</u>"""
             text += text2
-        i += 1
-    text += """
+            i += 1
+        text += """
 
 <b>ЧЁТНАЯ НЕДЕЛЯ</b>   
 
                 <b>Ауд.    Предмет    Препод.    Вид.    Группа.</b>   
     """
-    i = 0
-    while i < len(all_traning):
-        if all_traning[i][8] == "четная неделя":
-            text2 = fr"""
+        i = 0
+        while i < len(all_traning):
+            if all_traning[i][8] == "четная неделя":
+                text2 = fr"""
 <b>{all_traning[i][2]}</b> <u>{all_traning[i][3]}  {all_traning[i][6]}  {all_traning[i][5]}  {all_traning[i][4]}  {all_traning[i][7]}</u>"""
-            text += text2
-        i += 1
+                text += text2
+            i += 1
 
-    await callback.message.answer(text, parse_mode='HTML')
+        await callback.message.answer(text, parse_mode='HTML')
