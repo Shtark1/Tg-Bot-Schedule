@@ -1,6 +1,7 @@
 # ШАБЛОН ОТПРАВКИ РАСПИСАНИЯ ДЛЯ СТУДЕНТОВ
 async def send_student(db, day_name, student, callback):
     if day_name.lower() != "воскресенье":
+        print(day_name.lower())
         all_traning = db.get_training("day of the week", "group", f"{day_name.lower()}", student)
         await callback.message.answer(fr"""<b>Расписание на {day_name}</b>
 
